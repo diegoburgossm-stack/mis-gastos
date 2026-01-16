@@ -127,45 +127,38 @@ ul {
   display: none; !important;
 }
 
-/* SHEET iOS */
-.sheet {
+/* Overlay */
+.overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  z-index: 9999;
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+  z-index: 20;
 }
 
-.sheet-content {
+/* Sheet */
+.sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: white;
-  width: 100%;
-  max-width: 390px;
-  border-radius: 20px 20px 0 0;
+  border-radius: 16px 16px 0 0;
   padding: 16px;
-  animation: slideUp 0.25s ease;
+  transform: translateY(100%);
+  transition: transform .3s ease;
+  z-index: 21;
 }
 
-.sheet-content h3 {
-  margin-top: 0;
-  text-align: center;
+/* ACTIVO */
+.sheet.active {
+  transform: translateY(0);
 }
 
-.sheet-content button {
-  margin-top: 8px;
-}
-
-button.cancel {
-  background: #ddd;
-  color: #333;
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
