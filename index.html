@@ -61,26 +61,28 @@
   <!-- TOAST -->
   <div id="toast" class="toast hidden">Gasto guardado ✅</div>
 
-  <!-- SHEET EDITAR -->
-  <div id="sheet" class="sheet hidden">
-    <div class="sheet-content">
-      <h3>Editar gasto</h3>
+  <!-- Overlay -->
+<div id="editOverlay" class="overlay"></div>
 
-      <input id="editMonto" type="number" />
-      <select id="editCategoria">
-        <option>Comida</option>
-        <option>Transporte</option>
-        <option>Servicios</option>
-        <option>Ocio</option>
-        <option>Otros</option>
-      </select>
-      <input id="editFecha" type="date" />
-      <input id="editNota" type="text" />
+<!-- Sheet Editar -->
+<div id="editSheet" class="sheet">
+  <h3>Editar gasto</h3>
 
-      <button onclick="guardarEdicion()">Guardar cambios</button>
-      <button class="cancel" onclick="cerrarSheet()">Cancelar</button>
-    </div>
-  </div>
+  <input id="editMonto" type="number" placeholder="Monto $" />
+  <select id="editCategoria">
+    <option>Comida</option>
+    <option>Transporte</option>
+    <option>Salud</option>
+    <option>Ocio</option>
+    <option>Otros</option>
+  </select>
+  <input id="editFecha" type="date" />
+  <input id="editNota" placeholder="Nota (opcional)" />
+
+  <button class="primary" onclick="guardarEdicion()">Guardar cambios</button>
+  <button class="secondary" onclick="cerrarEdicion()">Cancelar</button>
+</div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
