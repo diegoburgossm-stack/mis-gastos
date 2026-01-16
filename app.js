@@ -42,8 +42,8 @@ function guardarGasto() {
 function eliminar(id) {
   if (!confirm("¿Eliminar este gasto?")) return;
   guardarGastos(obtenerGastos().filter(g => g.id !== id));
-  render();
   mostrarFeedback();
+  render();
 }
 
 
@@ -168,3 +168,4 @@ function mostrarFeedback() {
     feedback.classList.add("hidden");
   }, 1500);
 }
+
