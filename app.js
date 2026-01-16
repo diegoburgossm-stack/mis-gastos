@@ -159,6 +159,12 @@ const graficoMesCanvas=document.getElementById("graficoMes");
 const feedback = document.getElementById("feedback");
 
 function mostrarFeedback() {
+  const feedback = document.getElementById("feedback");
+  if (!feedback) return;
+
   feedback.classList.remove("hidden");
-  setTimeout(() => feedback.classList.add("hidden"), 1500);
+
+  setTimeout(() => {
+    feedback.classList.add("hidden");
+  }, 1500);
 }
