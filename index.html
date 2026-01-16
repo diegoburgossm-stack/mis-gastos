@@ -13,24 +13,27 @@
   <div class="app">
 
     <h1>Mis Gastos</h1>
-    
+
+    <!-- RESUMEN MES -->
     <div class="card resumen">
-    <h2 id="totalMes">$0</h2>
-    <p>Gasto del mes</p>
-  </div>
-  
-  <div class="dashboard">
-  <div class="card mini">
-    <h3 id="cantidadMes">0</h3>
-    <p>Gastos</p>
-  </div>
+      <h2 id="totalMes">$0</h2>
+      <p>Gasto del mes</p>
+    </div>
 
-  <div class="card mini">
-    <h3 id="categoriaTop">-</h3>
-    <p>Categoría top</p>
-  </div>
-</div>
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+      <div class="card mini">
+        <h3 id="cantidadMes">0</h3>
+        <p>Gastos</p>
+      </div>
 
+      <div class="card mini">
+        <h3 id="categoriaTop">-</h3>
+        <p>Categoría top</p>
+      </div>
+    </div>
+
+    <!-- FORM -->
     <div class="card">
       <input id="monto" type="number" placeholder="Monto $" />
       
@@ -47,10 +50,12 @@
       <button id="guardar">Guardar gasto</button>
     </div>
 
+    <!-- GRAFICO -->
     <div class="card">
       <canvas id="grafico"></canvas>
     </div>
 
+    <!-- LISTA -->
     <div class="card">
       <ul id="lista"></ul>
       <p class="empty">Sin gastos aún</p>
