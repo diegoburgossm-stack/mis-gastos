@@ -70,6 +70,38 @@ function render() {
 
   renderGrafico(data);
   calcularTotalMes(data);
+  renderDashboard(data);
+  function renderDashboard(data) {
+  const ahora = new Date();
+  const mes = ahora.getMonth();
+  const anio = ahora.getFullYear();
+
+  const gastosMes = data.filter(g => {
+    const f = new Date(g.fecha);
+    return f.getMonth() === mes && f.getFullYear() === anio;
+  });
+
+  // Cantidad de gastos
+  document.getElementById("cantidadMes").textContent = gastosMes.length;
+
+  // Categoría más usada
+  const contador = {};
+  gastosMes.forEach(g => {
+    contador[g.categoria] = (contador[g.categoria] || 0) + 1;
+  });
+
+  let top = "-";
+  let max = 0;
+
+  for (let cat in contador) {
+    if (contador[cat] > max) {
+      max = contador[cat];
+      top = cat;
+    }
+  }
+
+  document.getElementById("categoriaTop").textContent = top;
+}
   function calcularTotalMes(data) {
   const ahora = new Date();
   const mes = ahora.getMonth();
