@@ -1,95 +1,47 @@
-/* RESET TOTAL Y MODELO DE CAJA */
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", sans-serif;
 }
 
-/* VARIABLES iOS */
-:root {
-  --bg: #f2f2f7;
-  --card: #ffffff;
-  --text: #000000;
-  --blue: #007aff;
-  --input-bg: #f2f2f7;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #000000;
-    --card: #1c1c1e;
-    --text: #ffffff;
-    --input-bg: #2c2c2e;
-  }
-}
-
-/* BODY */
 body {
   margin: 0;
-  padding: 0;
-  background: var(--bg);
-  font-family: -apple-system, BlinkMacSystemFont, system-ui;
-  color: var(--text);
-  -webkit-text-size-adjust: 100%;
+  background: #f2f2f7;
 }
 
-/* CONTENEDOR PRINCIPAL – IPHONE 12 */
 .app {
-  width: 100%;
-  max-width: 390px;       /* iPhone 12 */
-  margin: 0 auto;
-  padding: 16px 14px;     /* padding iOS real */
+  max-width: 390px;
+  margin: auto;
+  padding: 16px;
 }
 
-/* TARJETAS */
-.card {
-  width: 100%;
-  background: var(--card);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 16px;
-}
-
-/* TITULOS */
 h1 {
   text-align: center;
-  margin: 8px 0 16px;
+  margin-bottom: 12px;
 }
 
-h2 {
-  font-size: 17px;
-  margin: 0 0 8px;
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-/* INPUTS */
-input,
-select {
+input, select, button {
   width: 100%;
-  display: block;
-  background: var(--input-bg);
-  border: none;
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-top: 10px;
+  margin-bottom: 8px;
+  padding: 10px;
   font-size: 16px;
-  color: var(--text);
-  appearance: none;
+  border-radius: 12px;
+  border: 1px solid #ddd;
 }
 
-/* BOTONES */
 button {
-  width: 100%;
-  margin-top: 14px;
-  padding: 13px 0;
-  background: var(--blue);
+  background: #007aff;
   color: white;
   border: none;
-  border-radius: 14px;
-  font-size: 17px;
-  font-weight: 600;
 }
 
-/* LISTA */
 ul {
   list-style: none;
   padding: 0;
@@ -97,62 +49,33 @@ ul {
 }
 
 li {
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
 
-/* DARK DIVIDER */
-@media (prefers-color-scheme: dark) {
-  li {
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
+li:last-child {
+  border-bottom: none;
 }
 
-/* UTIL */
-.hidden {
-  display: none;
-}
-
-/* --------- MICRO INTERACCIONES --------- */
-
-button:active {
-  transform: scale(0.97);
-  opacity: 0.9;
-}
-
-/* Animación suave */
-.card,
-button,
-input,
-select {
-  transition: all 0.2s ease;
-}
-
-/* Empty state */
 .empty {
   text-align: center;
-  color: #8e8e93;
-  font-size: 15px;
-  padding: 24px 0;
+  color: #888;
 }
 
-/* Lista más iOS */
-li button {
-  background: none;
-  color: #ff3b30;
-  font-size: 18px;
-  width: auto;
-  padding: 0;
-}
-
-.feedback {
-  margin-top: 10px;
-  text-align: center;
+/* TOAST */
+.toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(50,50,50,0.95);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 14px;
+  z-index: 9999;
   font-size: 15px;
-  color: #34c759; /* verde iOS */
 }
 
 .hidden {
