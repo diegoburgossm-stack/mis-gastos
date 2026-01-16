@@ -147,3 +147,14 @@ li button {
   width: auto;
   padding: 0;
 }
+
+.feedback {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 15px;
+  color: #34c759; /* verde iOS */
+}
+
+.hidden {
+  display: none;
+}
