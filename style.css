@@ -96,3 +96,25 @@ li:last-child {
   margin: 4px 0 0;
   color: #666;
 }
+
+.dashboard {
+  display: flex;
+  gap: 12px;
+}
+
+.card.mini {
+  flex: 1;
+  text-align: center;
+}
+
+.card.mini h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.card.mini p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #777;
+}
