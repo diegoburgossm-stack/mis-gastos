@@ -1,0 +1,57 @@
+:root {
+  --bg:#f2f2f7;
+  --card:#fff;
+  --text:#000;
+  --blue:#007aff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#000;
+    --card:#1c1c1e;
+    --text:#fff;
+  }
+}
+
+body {
+  margin:0;
+  font-family:-apple-system;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.app {
+  max-width:420px;
+  margin:auto;
+  padding:16px;
+}
+
+.hidden { display:none }
+
+.card {
+  background:var(--card);
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:16px;
+}
+
+input, select, button {
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border-radius:12px;
+  border:none;
+}
+
+button {
+  background:var(--blue);
+  color:white;
+}
+
+ul { list-style:none; padding:0 }
+
+li {
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+}
