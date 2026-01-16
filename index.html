@@ -1,77 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Mis Gastos</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mis Gastos</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <div class="app">
 
-<div id="login" class="app">
-  <h1>🔒 Ingresar PIN</h1>
-  <input type="password" id="pinInput" placeholder="PIN de 4 dígitos">
-  <button onclick="verificarPIN()">Entrar</button>
-</div>
+    <h1>Mis Gastos</h1>
 
-<div id="app" class="app hidden">
+    <div class="card">
+      <input id="monto" type="number" placeholder="Monto $" />
+      
+      <select id="categoria">
+        <option>Comida</option>
+        <option>Transporte</option>
+        <option>Servicios</option>
+        <option>Ocio</option>
+        <option>Otros</option>
+      </select>
 
-<h1>💸 Mis Gastos</h1>
+      <input id="nota" type="text" placeholder="Nota (opcional)" />
 
-<div class="card">
-  <input type="number" id="monto" placeholder="Monto">
-  <input type="text" id="nota" placeholder="Nota (opcional)">
-  <select id="categoria">
-    <option>🍔 Comida</option>
-    <option>🚗 Transporte</option>
-    <option>🏠 Hogar</option>
-    <option>🎮 Ocio</option>
-    <option>📦 Otros</option>
-  </select>
-  
-  <button onclick="guardarGasto()">Guardar gasto</button>
+      <button id="guardar">Guardar gasto</button>
+    </div>
 
-  <p id="feedback" class="feedback hidden">Gasto guardado ✅</p>
-</div>
+    <div class="card">
+      <canvas id="grafico"></canvas>
+    </div>
 
-<div class="card">
-  <h2>📅 Filtro mensual</h2>
-  <input type="month" id="mesFiltro" onchange="render()">
-</div>
+    <div class="card">
+      <ul id="lista"></ul>
+      <p class="empty">Sin gastos aún</p>
+    </div>
 
-<div class="card">
-  <h2>💰 Presupuesto mensual</h2>
-  <input type="number" id="presupuesto">
-  <button onclick="guardarPresupuesto()">Guardar</button>
-  <p id="estadoPresupuesto"></p>
-</div>
+  </div>
 
-<div class="card">
-  <h2>📊 Por categoría</h2>
-  <canvas id="graficoCategoria"></canvas>
-</div>
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden">Gasto guardado ✅</div>
 
-<div class="card">
-  <h2>📈 Evolución mensual</h2>
-  <canvas id="graficoMes"></canvas>
-</div>
-
-<div class="card">
-  <h2>🧾 Gastos</h2>
-  <ul id="lista"></ul>
-</div>
-
-<div class="card">
-  <button onclick="exportarCSV()">📤 Exportar Excel</button>
-  <button onclick="backup()">💾 Backup</button>
-  <input type="file" onchange="restore(this)">
-</div>
-
-</div>
-
-<script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
