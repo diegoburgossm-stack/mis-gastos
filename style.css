@@ -126,3 +126,46 @@ ul {
 .hidden {
   display: none;
 }
+
+/* SHEET iOS */
+.sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 9999;
+}
+
+.sheet-content {
+  background: white;
+  width: 100%;
+  max-width: 390px;
+  border-radius: 20px 20px 0 0;
+  padding: 16px;
+  animation: slideUp 0.25s ease;
+}
+
+.sheet-content h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.sheet-content button {
+  margin-top: 8px;
+}
+
+button.cancel {
+  background: #ddd;
+  color: #333;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
