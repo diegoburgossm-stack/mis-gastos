@@ -1,11 +1,13 @@
 const monto = document.getElementById("monto");
 const categoria = document.getElementById("categoria");
+const fechaInput = document.getElementById("fecha");
 const nota = document.getElementById("nota");
 const guardarBtn = document.getElementById("guardar");
 const lista = document.getElementById("lista");
 const empty = document.querySelector(".empty");
 
 let chart;
+let editId = null;
 
 guardarBtn.addEventListener("click", guardarGasto);
 
@@ -27,12 +29,14 @@ function guardarGasto() {
     monto: Number(monto.value),
     categoria: categoria.value,
     nota: nota.value,
-    fecha: new Date().toISOString()
+    fecha: fechaInput.value || new Date().toISOString().split("T")[0]
   });
 
   guardarGastos(data);
+
   monto.value = "";
   nota.value = "";
+  fechaInput.value = "";
 
   render();
   mostrarFeedback();
@@ -44,10 +48,38 @@ function eliminar(id) {
   render();
 }
 
+function abrirEdicion(g) {
+  editId = g.id;
+  document.getElementById("editMonto").value = g.monto;
+  document.getElementById("editCategoria").value = g.categoria;
+  document.getElementById("editFecha").value = g.fecha;
+  document.getElementById("editNota").value = g.nota || "";
+  document.getElementById("sheet").classList.remove("hidden");
+}
+
+function guardarEdicion() {
+  const data = obtenerGastos().map(g =>
+    g.id === editId ? {
+      ...g,
+      monto: Number(editMonto.value),
+      categoria: editCategoria.value,
+      fecha: editFecha.value,
+      nota: editNota.value
+    } : g
+  );
+
+  guardarGastos(data);
+  cerrarSheet();
+  render();
+}
+
+function cerrarSheet() {
+  document.getElementById("sheet").classList.add("hidden");
+}
+
 function render() {
   const data = obtenerGastos();
   lista.innerHTML = "";
-
   empty.style.display = data.length ? "none" : "block";
 
   data.forEach(g => {
@@ -56,7 +88,7 @@ function render() {
 
     li.innerHTML = `
       <div class="swipe-delete" onclick="eliminar(${g.id})">Eliminar</div>
-      <div class="swipe-content">
+      <div class="swipe-content" onclick='abrirEdicion(${JSON.stringify(g)})'>
         <div>
           <strong>${g.categoria}</strong>
           <div style="font-size:12px;color:#888">
@@ -72,7 +104,7 @@ function render() {
 
   renderGrafico(data);
   calcularTotalMes(data);
-  renderDashboard(data);
+  renderCategoriaTop(data);
 }
 
 function calcularTotalMes(data) {
@@ -83,23 +115,14 @@ function calcularTotalMes(data) {
       return f.getMonth() === now.getMonth() &&
              f.getFullYear() === now.getFullYear();
     })
-    .reduce((sum, g) => sum + g.monto, 0);
+    .reduce((s, g) => s + g.monto, 0);
 
   document.getElementById("totalMes").textContent = `$${total}`;
 }
 
-function renderDashboard(data) {
-  const now = new Date();
-  const gastosMes = data.filter(g => {
-    const f = new Date(g.fecha);
-    return f.getMonth() === now.getMonth() &&
-           f.getFullYear() === now.getFullYear();
-  });
-
-  document.getElementById("cantidadMes").textContent = gastosMes.length;
-
+function renderCategoriaTop(data) {
   const contador = {};
-  gastosMes.forEach(g => {
+  data.forEach(g => {
     contador[g.categoria] = (contador[g.categoria] || 0) + 1;
   });
 
