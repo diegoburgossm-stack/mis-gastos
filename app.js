@@ -23,11 +23,12 @@ function guardarGasto() {
   const data = obtenerGastos();
 
   data.push({
-    id: Date.now(),
-    monto: Number(monto.value),
-    categoria: categoria.value,
-    nota: nota.value
-  });
+  id: Date.now(),
+  monto: Number(monto.value),
+  categoria: categoria.value,
+  nota: nota.value,
+  fecha: new Date().toISOString()
+});
 
   guardarGastos(data);
 
@@ -53,13 +54,36 @@ function render() {
   data.forEach(g => {
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${g.categoria} - $${g.monto}</span>
-      <button onclick="eliminar(${g.id})">✕</button>
-    `;
+  <div>
+    <strong>${g.categoria}</strong>
+    <div style="font-size: 12px; color: #888;">
+      ${new Date(g.fecha).toLocaleDateString()}
+    </div>
+  </div>
+  <div>
+    $${g.monto}
+    <button onclick="eliminar(${g.id})">✕</button>
+  </div>
+`;
     lista.appendChild(li);
   });
 
   renderGrafico(data);
+  calcularTotalMes(data);
+  function calcularTotalMes(data) {
+  const ahora = new Date();
+  const mes = ahora.getMonth();
+  const anio = ahora.getFullYear();
+
+  const total = data
+    .filter(g => {
+      const f = new Date(g.fecha);
+      return f.getMonth() === mes && f.getFullYear() === anio;
+    })
+    .reduce((sum, g) => sum + g.monto, 0);
+
+  document.getElementById("totalMes").textContent = `$${total}`;
+}
 }
 
 function renderGrafico(data) {
