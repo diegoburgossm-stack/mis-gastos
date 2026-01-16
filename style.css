@@ -81,3 +81,18 @@ li:last-child {
 .hidden {
   display: none;
 }
+
+.resumen {
+  text-align: center;
+}
+
+.resumen h2 {
+  margin: 0;
+  font-size: 32px;
+  color: #007aff;
+}
+
+.resumen p {
+  margin: 4px 0 0;
+  color: #666;
+}
