@@ -115,3 +115,35 @@ li {
 .hidden {
   display: none;
 }
+
+/* --------- MICRO INTERACCIONES --------- */
+
+button:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+/* Animación suave */
+.card,
+button,
+input,
+select {
+  transition: all 0.2s ease;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  color: #8e8e93;
+  font-size: 15px;
+  padding: 24px 0;
+}
+
+/* Lista más iOS */
+li button {
+  background: none;
+  color: #ff3b30;
+  font-size: 18px;
+  width: auto;
+  padding: 0;
+}
