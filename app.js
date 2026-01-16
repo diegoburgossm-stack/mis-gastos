@@ -54,6 +54,40 @@ function eliminar(id) {
   render();
 }
 
+let gastoEditando = null;
+
+function abrirEdicion(id) {
+  gastoEditando = gastos.find(g => g.id === id);
+
+  document.getElementById("editMonto").value = gastoEditando.monto;
+  document.getElementById("editCategoria").value = gastoEditando.categoria;
+  document.getElementById("editFecha").value = gastoEditando.fecha;
+  document.getElementById("editNota").value = gastoEditando.nota || "";
+
+  document.getElementById("editSheet").classList.add("active");
+  document.getElementById("editOverlay").classList.add("active");
+}
+
+function cerrarEdicion() {
+  document.getElementById("editSheet").classList.remove("active");
+  document.getElementById("editOverlay").classList.remove("active");
+  gastoEditando = null;
+}
+
+function guardarEdicion() {
+  if (!gastoEditando) return;
+
+  gastoEditando.monto = Number(editMonto.value);
+  gastoEditando.categoria = editCategoria.value;
+  gastoEditando.fecha = editFecha.value;
+  gastoEditando.nota = editNota.value;
+
+  localStorage.setItem("gastos", JSON.stringify(gastos));
+  render();
+  cerrarEdicion();
+}
+
+
 function abrirEdicion(gasto) {
   editId = gasto.id;
   editMonto.value = gasto.monto;
@@ -115,6 +149,9 @@ function render() {
   li.querySelector(".swipe-delete").addEventListener("click", () => {
     eliminar(g.id);
   });
+
+  li.querySelector(".swipe-content").onclick = () => abrirEdicion(g.id);
+
 
   // EDITAR (tap normal)
   li.querySelector(".swipe-content").addEventListener("click", () => {
@@ -207,5 +244,6 @@ document.addEventListener("touchmove", e => {
 document.addEventListener("touchend", () => {
   currentItem = null;
 });
+
 
 render();
