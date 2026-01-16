@@ -5,6 +5,12 @@ const nota = document.getElementById("nota");
 const guardarBtn = document.getElementById("guardar");
 const lista = document.getElementById("lista");
 const empty = document.querySelector(".empty");
+const editMonto = document.getElementById("editMonto");
+const editCategoria = document.getElementById("editCategoria");
+const editFecha = document.getElementById("editFecha");
+const editNota = document.getElementById("editNota");
+const sheet = document.getElementById("sheet");
+
 
 let chart;
 let editId = null;
@@ -48,24 +54,27 @@ function eliminar(id) {
   render();
 }
 
-function abrirEdicion(g) {
-  editId = g.id;
-  document.getElementById("editMonto").value = g.monto;
-  document.getElementById("editCategoria").value = g.categoria;
-  document.getElementById("editFecha").value = g.fecha;
-  document.getElementById("editNota").value = g.nota || "";
-  document.getElementById("sheet").classList.remove("hidden");
+function abrirEdicion(gasto) {
+  editId = gasto.id;
+  editMonto.value = gasto.monto;
+  editCategoria.value = gasto.categoria;
+  editFecha.value = gasto.fecha;
+  editNota.value = gasto.nota || "";
+  sheet.classList.remove("hidden");
 }
+
 
 function guardarEdicion() {
   const data = obtenerGastos().map(g =>
-    g.id === editId ? {
-      ...g,
-      monto: Number(editMonto.value),
-      categoria: editCategoria.value,
-      fecha: editFecha.value,
-      nota: editNota.value
-    } : g
+    g.id === editId
+      ? {
+          ...g,
+          monto: Number(editMonto.value),
+          categoria: editCategoria.value,
+          fecha: editFecha.value,
+          nota: editNota.value
+        }
+      : g
   );
 
   guardarGastos(data);
@@ -73,9 +82,12 @@ function guardarEdicion() {
   render();
 }
 
+
 function cerrarSheet() {
-  document.getElementById("sheet").classList.add("hidden");
+  sheet.classList.add("hidden");
+  editId = null;
 }
+
 
 function render() {
   const data = obtenerGastos();
@@ -83,24 +95,35 @@ function render() {
   empty.style.display = data.length ? "none" : "block";
 
   data.forEach(g => {
-    const li = document.createElement("li");
-    li.className = "swipe-item";
+  const li = document.createElement("li");
+  li.className = "swipe-item";
 
-    li.innerHTML = `
-      <div class="swipe-delete" onclick="eliminar(${g.id})">Eliminar</div>
-      <div class="swipe-content" onclick='abrirEdicion(${JSON.stringify(g)})'>
-        <div>
-          <strong>${g.categoria}</strong>
-          <div style="font-size:12px;color:#888">
-            ${new Date(g.fecha).toLocaleDateString()}
-          </div>
+  li.innerHTML = `
+    <div class="swipe-delete">Eliminar</div>
+    <div class="swipe-content">
+      <div>
+        <strong>${g.categoria}</strong>
+        <div style="font-size:12px;color:#888">
+          ${new Date(g.fecha).toLocaleDateString()}
         </div>
-        <div>$${g.monto}</div>
       </div>
-    `;
+      <div>$${g.monto}</div>
+    </div>
+  `;
 
-    lista.appendChild(li);
+  // ELIMINAR
+  li.querySelector(".swipe-delete").addEventListener("click", () => {
+    eliminar(g.id);
   });
+
+  // EDITAR (tap normal)
+  li.querySelector(".swipe-content").addEventListener("click", () => {
+    abrirEdicion(g);
+  });
+
+  lista.appendChild(li);
+});
+
 
   renderGrafico(data);
   calcularTotalMes(data);
