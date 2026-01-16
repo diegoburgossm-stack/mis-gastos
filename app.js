@@ -40,9 +40,12 @@ function guardarGasto() {
 }
 
 function eliminar(id) {
-  guardarGastos(obtenerGastos().filter(g=>g.id!==id));
+  if (!confirm("¿Eliminar este gasto?")) return;
+  guardarGastos(obtenerGastos().filter(g => g.id !== id));
   render();
+  mostrarFeedback();
 }
+
 
 // ---------- FILTRO ----------
 function filtrados() {
@@ -55,6 +58,10 @@ function filtrados() {
 // ---------- RENDER ----------
 function render() {
   lista.innerHTML = "";
+
+if (filtrados().length === 0) {
+  lista.innerHTML = `<div class="empty">No hay gastos este mes</div>`;
+}
   let resumen = {}, meses = {}, total = 0;
 
   filtrados().forEach(g=>{
@@ -149,3 +156,9 @@ const estadoPresupuesto=document.getElementById("estadoPresupuesto");
 const mesFiltro=document.getElementById("mesFiltro");
 const graficoCategoriaCanvas=document.getElementById("graficoCategoria");
 const graficoMesCanvas=document.getElementById("graficoMes");
+const feedback = document.getElementById("feedback");
+
+function mostrarFeedback() {
+  feedback.classList.remove("hidden");
+  setTimeout(() => feedback.classList.add("hidden"), 1500);
+}
