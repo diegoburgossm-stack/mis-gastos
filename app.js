@@ -23,15 +23,14 @@ function guardarGasto() {
   const data = obtenerGastos();
 
   data.push({
-  id: Date.now(),
-  monto: Number(monto.value),
-  categoria: categoria.value,
-  nota: nota.value,
-  fecha: new Date().toISOString()
-});
+    id: Date.now(),
+    monto: Number(monto.value),
+    categoria: categoria.value,
+    nota: nota.value,
+    fecha: new Date().toISOString()
+  });
 
   guardarGastos(data);
-
   monto.value = "";
   nota.value = "";
 
@@ -53,38 +52,52 @@ function render() {
 
   data.forEach(g => {
     const li = document.createElement("li");
+    li.className = "swipe-item";
+
     li.innerHTML = `
-  <div>
-    <strong>${g.categoria}</strong>
-    <div style="font-size: 12px; color: #888;">
-      ${new Date(g.fecha).toLocaleDateString()}
-    </div>
-  </div>
-  <div>
-    $${g.monto}
-    <button onclick="eliminar(${g.id})">✕</button>
-  </div>
-`;
+      <div class="swipe-delete" onclick="eliminar(${g.id})">Eliminar</div>
+      <div class="swipe-content">
+        <div>
+          <strong>${g.categoria}</strong>
+          <div style="font-size:12px;color:#888">
+            ${new Date(g.fecha).toLocaleDateString()}
+          </div>
+        </div>
+        <div>$${g.monto}</div>
+      </div>
+    `;
+
     lista.appendChild(li);
   });
 
   renderGrafico(data);
   calcularTotalMes(data);
   renderDashboard(data);
-  function renderDashboard(data) {
-  const ahora = new Date();
-  const mes = ahora.getMonth();
-  const anio = ahora.getFullYear();
+}
 
+function calcularTotalMes(data) {
+  const now = new Date();
+  const total = data
+    .filter(g => {
+      const f = new Date(g.fecha);
+      return f.getMonth() === now.getMonth() &&
+             f.getFullYear() === now.getFullYear();
+    })
+    .reduce((sum, g) => sum + g.monto, 0);
+
+  document.getElementById("totalMes").textContent = `$${total}`;
+}
+
+function renderDashboard(data) {
+  const now = new Date();
   const gastosMes = data.filter(g => {
     const f = new Date(g.fecha);
-    return f.getMonth() === mes && f.getFullYear() === anio;
+    return f.getMonth() === now.getMonth() &&
+           f.getFullYear() === now.getFullYear();
   });
 
-  // Cantidad de gastos
   document.getElementById("cantidadMes").textContent = gastosMes.length;
 
-  // Categoría más usada
   const contador = {};
   gastosMes.forEach(g => {
     contador[g.categoria] = (contador[g.categoria] || 0) + 1;
@@ -92,51 +105,30 @@ function render() {
 
   let top = "-";
   let max = 0;
-
-  for (let cat in contador) {
-    if (contador[cat] > max) {
-      max = contador[cat];
-      top = cat;
+  for (let c in contador) {
+    if (contador[c] > max) {
+      max = contador[c];
+      top = c;
     }
   }
 
   document.getElementById("categoriaTop").textContent = top;
 }
-  function calcularTotalMes(data) {
-  const ahora = new Date();
-  const mes = ahora.getMonth();
-  const anio = ahora.getFullYear();
-
-  const total = data
-    .filter(g => {
-      const f = new Date(g.fecha);
-      return f.getMonth() === mes && f.getFullYear() === anio;
-    })
-    .reduce((sum, g) => sum + g.monto, 0);
-
-  document.getElementById("totalMes").textContent = `$${total}`;
-}
-}
 
 function renderGrafico(data) {
-  const totalPorCategoria = {};
-
+  const totals = {};
   data.forEach(g => {
-    totalPorCategoria[g.categoria] =
-      (totalPorCategoria[g.categoria] || 0) + g.monto;
+    totals[g.categoria] = (totals[g.categoria] || 0) + g.monto;
   });
 
   const ctx = document.getElementById("grafico");
-
   if (chart) chart.destroy();
 
   chart = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: Object.keys(totalPorCategoria),
-      datasets: [{
-        data: Object.values(totalPorCategoria)
-      }]
+      labels: Object.keys(totals),
+      datasets: [{ data: Object.values(totals) }]
     }
   });
 }
@@ -144,10 +136,30 @@ function renderGrafico(data) {
 function mostrarFeedback() {
   const toast = document.getElementById("toast");
   toast.classList.remove("hidden");
-
-  setTimeout(() => {
-    toast.classList.add("hidden");
-  }, 1500);
+  setTimeout(() => toast.classList.add("hidden"), 1500);
 }
+
+/* SWIPE */
+let startX = 0;
+let currentItem = null;
+
+document.addEventListener("touchstart", e => {
+  currentItem = e.target.closest(".swipe-item");
+  if (!currentItem) return;
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchmove", e => {
+  if (!currentItem) return;
+  const diff = e.touches[0].clientX - startX;
+  if (diff < -20) {
+    currentItem.querySelector(".swipe-content").style.transform =
+      "translateX(-80px)";
+  }
+});
+
+document.addEventListener("touchend", () => {
+  currentItem = null;
+});
 
 render();
