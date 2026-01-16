@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
@@ -48,40 +48,12 @@ ul {
   margin: 0;
 }
 
-li {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-li:last-child {
-  border-bottom: none;
-}
-
 .empty {
   text-align: center;
   color: #888;
 }
 
-/* TOAST */
-.toast {
-  position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(50,50,50,0.95);
-  color: white;
-  padding: 10px 16px;
-  border-radius: 14px;
-  z-index: 9999;
-  font-size: 15px;
-}
-
-.hidden {
-  display: none;
-}
-
+/* RESUMEN */
 .resumen {
   text-align: center;
 }
@@ -92,11 +64,7 @@ li:last-child {
   color: #007aff;
 }
 
-.resumen p {
-  margin: 4px 0 0;
-  color: #666;
-}
-
+/* DASHBOARD */
 .dashboard {
   display: flex;
   gap: 12px;
@@ -110,11 +78,51 @@ li:last-child {
 .card.mini h3 {
   margin: 0;
   font-size: 22px;
-  color: #333;
 }
 
-.card.mini p {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: #777;
+/* SWIPE iOS */
+.swipe-item {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.swipe-content {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  transition: transform 0.25s ease;
+}
+
+.swipe-delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  background: #ff3b30;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(50,50,50,0.95);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 14px;
+  z-index: 9999;
+}
+
+.hidden {
+  display: none;
 }
